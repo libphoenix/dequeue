@@ -182,7 +182,7 @@ void backDequeue(void) {
 	queue[f].bl = BACKGROUND_B;
 
 	f++;
-	enqORdq = DEQUEUE1;	// indicates what the last operation was.
+	enqORdq = DEQUEUE1;	// indicates what the last operation was dequeue from back
 
 	if(f >= b) {
 		message = EMPTY;
@@ -208,7 +208,7 @@ void frontDequeue(void){
     queue[b].bl = BACKGROUND_B;
 
     b--;
-    enqORdq = DEQUEUE2;    // indicates what the last operation was.
+    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue from front 
 		if(f >= b) {
 			message = EMPTY;
 		}
