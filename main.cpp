@@ -69,11 +69,11 @@ void drawOutline(int x1, int y1, int x2, int y2) {
 	glEnd();
 }
 
-void drawString(const char *str, double x=0, double y=0, double size=1.0) {
+void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 	glPushMatrix();
 	glTranslatef(x,y,0);
-	glScalef(size,size,1.0);
-	glColor3f(0, 0, 0);
+	glScalef(size,size,4.0);
+	glColor3f(1, 0, 0);
 	int itemCt = 0;
 	int len = strlen(str);
 	for (int i = 0; i < len; i++) {
@@ -99,16 +99,6 @@ void drawArrow(int x1, const char* s) {
 		drawString(s, x1-ARROW_LENGTH/3, 3*SCREEN_Y/4+ARROW_LENGTH/4, 1.0/(2*FONT_RATIO));
 }
 
-void blink(void) {
-	if(blinking[0] == '_')
-		blinking[0] = '|';
-	else
-		blinking[0] = '_';
-	clock_t start = clock();
-	while((clock() - start)/CLOCKS_PER_SEC < 0.01);
-	glutPostRedisplay();
-}
-
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -116,7 +106,6 @@ void display() {
 	strcat(displayString, blinking);
 
 	drawString(displayString, ENTER_POSITION_X, ENTER_POSITION_Y,1.0/(FONT_RATIO));
-	//blink();
 
 	for(int i = 0; i < b; i++) {
 		glColor3f(queue[i].r,queue[i].g,queue[i].b);
@@ -155,7 +144,7 @@ void display() {
 	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(1.5*FONT_RATIO));
 	drawString("and F or f to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
 	drawString("Press E or e for exit.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
-	drawString("Press D or d to dequeue from front", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
+	drawString("Press D or d to dequeue from front.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
 	glFlush();
 }
 
@@ -290,7 +279,6 @@ int  main(int argc,char **argv) {
 	glutCreateWindow("double ended Queue Simulation");
 	glutDisplayFunc(display);
 	glutKeyboardFunc(mykey);
-	//glutIdleFunc(blink);
 	myinit();
 	glutMainLoop();
 	return 0;
