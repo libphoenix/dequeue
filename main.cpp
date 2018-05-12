@@ -152,9 +152,10 @@ void display() {
 	}
 
 	//instructions
-	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+30, 1.0/(1.5*FONT_RATIO));
-	drawString("Press D or d to dequeue from front ", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
-	drawString("and F or f to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
+	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(1.5*FONT_RATIO));
+	drawString("and F or f to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
+	drawString("Press E or e for exit.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
+	drawString("Press D or d to dequeue from front", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
 	glFlush();
 }
 
@@ -238,6 +239,8 @@ void mykey(unsigned char key, int x, int y) {
 		backDequeue();
   if((key == 'f' || key== 'F') && (cnt_of_chars == 0))
     frontDequeue();
+	if((key=='E' || key == 'e')&& (cnt_of_chars == 0))
+		exit(0);
 	else if(isdigit(key) && strlen(enter_str) <= 28) {
 		enter_str[len+1] = '\0';
 		enter_str[len] = key;
@@ -266,6 +269,7 @@ int  main(int argc,char **argv) {
 	char c;
 	strcpy(enter_str, "Enter Element to deQueue: ");
 	start_of_num = strlen("Enter Element to deQueue: ");
+	jump:
 	printf("\n\n\n");
 	printf("------------------------------------\n");
 	printf("Simulation of  deQueue in OpenGL\n");
