@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include <time.h>
 #include "myhearder.h"
+//changes made my deepak
+
 
 void myinit() {
 	// background
