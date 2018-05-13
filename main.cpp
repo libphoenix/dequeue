@@ -1,4 +1,5 @@
-//deepakpatel is here 
+//deepakpatel
+// this is a double ended queue implementation
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
