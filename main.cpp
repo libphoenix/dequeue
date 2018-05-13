@@ -209,7 +209,7 @@ void frontDequeue(void){
     queue[b].bl = BACKGROUND_B;
 
     b--;
-    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front 
+    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front
 		if(f >= b) {
 			message = EMPTY;
 		}
@@ -222,7 +222,7 @@ int max(int a, int b) {
 }
 
 void mykey(unsigned char key, int x, int y) {
-	if(f == MAX && b == MAX) exit(0);
+	//if(f == MAX && b == MAX) exit(0);
 
 	int len = strlen(enter_str);
 	if((key == 'd' || key == 'D') && (cnt_of_chars == 0))
