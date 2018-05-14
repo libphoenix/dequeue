@@ -222,28 +222,41 @@ int max(int a, int b) {
 }
 
 void mykey(unsigned char key, int x, int y) {
-	//if(f == MAX && b == MAX) exit(0);
+	if(f == MAX && b == MAX) exit(0);
 
 	int len = strlen(enter_str);
+// 	if((key == 'p')&& (cnt_of_chars == 0)){
+// 		printf("p is pressed ");
+// 		for(int i = 0; i<strlen(enter_str);i++){
+// 		printf("%c\n");
+// 	}
+// }
+
 	if((key == 'd' || key == 'D') && (cnt_of_chars == 0))
+		//printf("d is pressed\n");
 		backDequeue();
   if((key == 'f' || key== 'F') && (cnt_of_chars == 0))
-    frontDequeue();
+		//printf("f is pressed\n");
+		frontDequeue();
 	if((key=='E' || key == 'e')&& (cnt_of_chars == 0))
 		exit(0);
 	else if(isdigit(key) && strlen(enter_str) <= 28) {
+		printf("1\n");
 		enter_str[len+1] = '\0';
 		enter_str[len] = key;
 		cnt_of_chars++;
 	}
 	else if(key == '\b' && len > start_of_num) {
+		printf("2\n");
 		enter_str[len -1] = '\0';
 		cnt_of_chars--;
 	}
 	else if(!isgraph(key)) {
+		printf("3\n");
 		char newint[4];
 		strncpy(newint, enter_str+start_of_num, 3);
 		if(newint[0]) {
+			printf("4\n");
 			enqueue(newint);
 			enter_str[start_of_num] = '\0';
 		}
