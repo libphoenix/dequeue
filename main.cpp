@@ -10,6 +10,9 @@
 
 
 
+
+// 1st function
+//this function helps in inilization of some parameter for opengl porgram to run properly
 void myinit() {
 	// background
 	glClearColor(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
@@ -17,8 +20,6 @@ void myinit() {
 	glLoadIdentity();
 	glMatrixMode(GL_PROJECTION);
 	gluOrtho2D(0.0,SCREEN_X,0.0,SCREEN_Y);
-
-
 // creates color of cube and outline color
 	int i;
 	for(i = 0; i < 15; i++) {
@@ -29,7 +30,7 @@ void myinit() {
 		queue[i].gl = 0;
 		queue[i].bl = 0;
 	}
-
+//Declaration of some elements
 	float step = DIST/MAX;
 	queue[0].x1 = OFFSET_X;
 	queue[0].x2 = queue[0].x1+step;
@@ -41,6 +42,12 @@ void myinit() {
 
 }
 
+
+
+
+
+// 2nd function
+// this function creates a square for the element
 void square(int x1, int y1, int x2, int y2) {
 	glBegin(GL_POLYGON);
 		glVertex2f(x1, y1);
@@ -50,6 +57,15 @@ void square(int x1, int y1, int x2, int y2) {
 	glEnd();
 }
 
+
+
+
+
+
+
+
+// 3rd function
+//
 void drawOutline(int x1, int y1, int x2, int y2) {
 	int temp;
 	if(x1 < x2) {
@@ -70,6 +86,13 @@ void drawOutline(int x1, int y1, int x2, int y2) {
 	glEnd();
 }
 
+
+
+
+
+
+
+// 4th function
 void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 	glPushMatrix();
 	glTranslatef(x,y,0);
@@ -84,6 +107,13 @@ void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 }
 
 
+
+
+
+
+
+
+// 5th function
 void drawArrow(int x1, const char* s) {
 	glBegin(GL_LINES);
 		glVertex2f(x1, 3*SCREEN_Y/4);
@@ -100,13 +130,20 @@ void drawArrow(int x1, const char* s) {
 		drawString(s, x1-ARROW_LENGTH/3, 3*SCREEN_Y/4+ARROW_LENGTH/4, 1.0/(2*FONT_RATIO));
 }
 
+
+
+
+
+
+
+// 6th function
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	strcpy(displayString, enter_str);
 	strcat(displayString, blinking);
-
-	drawString(displayString, ENTER_POSITION_X, ENTER_POSITION_Y,1.0/(FONT_RATIO));
+	drawString("Enter where you want to add element:", 50, 430, 1.0/(FONT_RATIO));
+	drawString(displayString, ENTER_POSITION_X, ENTER_POSITION_Y+30,1.0/(FONT_RATIO));
 
 	for(int i = 0; i < b; i++) {
 		glColor3f(queue[i].r,queue[i].g,queue[i].b);
@@ -121,7 +158,6 @@ void display() {
 			drawString(queue[i].num, queue[i].x1+step, SCREEN_Y/2+step_y, 1.0/FONT_RATIO);
 		}
 	}
-
 	drawArrow(queue[f].x1, "FRONT");
 	drawArrow(queue[b].x1+OFFSET_X/2, "BACK");
 	if(enqORdq == ENQUEUE)
@@ -132,15 +168,13 @@ void display() {
 		drawString("LAST OPERATION: DEQUEUE from back", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
 	else
 		drawString("LAST OPERATION: NO OPERATION YET", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
-
-	//message
+		//message
 	if(message == EMPTY) {
 		drawString("QUEUE EMPTY!", OPERATION_POSITION_X+80, OPERATION_POSITION_Y, 1.0/(FONT_RATIO));
 	}
 	else if(message == FULL) {
 		drawString("QUEUE FULL!", OPERATION_POSITION_X+80, OPERATION_POSITION_Y, 1.0/(FONT_RATIO));
 	}
-
 	//instructions
 	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(1.5*FONT_RATIO));
 	drawString("and F or f to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
@@ -150,6 +184,11 @@ void display() {
 }
 
 
+
+
+
+
+// 7th function
 void enqueue(char *s) {
 	int len = strlen(s);
 	int i;
@@ -166,6 +205,11 @@ void enqueue(char *s) {
 }
 
 
+
+
+
+
+// 8th function
 void backDequeue(void) {
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
@@ -193,6 +237,14 @@ void backDequeue(void) {
 }
 
 
+
+
+
+
+
+
+
+//9th function
 void frontDequeue(void){
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
@@ -217,21 +269,29 @@ void frontDequeue(void){
 			message = FULL;
 }
 
+
+
+
+
+
+
+//10th function
 int max(int a, int b) {
 	return a?(a>b):b;
 }
 
+
+
+
+
+
+
+
+// 11th function
 void mykey(unsigned char key, int x, int y) {
 	if(f == MAX && b == MAX) exit(0);
 
 	int len = strlen(enter_str);
-// 	if((key == 'p')&& (cnt_of_chars == 0)){
-// 		printf("p is pressed ");
-// 		for(int i = 0; i<strlen(enter_str);i++){
-// 		printf("%c\n");
-// 	}
-// }
-
 	if((key == 'd' || key == 'D') && (cnt_of_chars == 0))
 		//printf("d is pressed\n");
 		backDequeue();
@@ -256,7 +316,6 @@ void mykey(unsigned char key, int x, int y) {
 		char newint[4];
 		strncpy(newint, enter_str+start_of_num, 3);
 		if(newint[0]) {
-			printf("4\n");
 			enqueue(newint);
 			enter_str[start_of_num] = '\0';
 		}
@@ -266,13 +325,19 @@ void mykey(unsigned char key, int x, int y) {
 }
 
 
+
+
+
+
+
+//12th function
+//main function this is main bock of program
 int  main(int argc,char **argv) {
 	char number[1000];
 	int i, j, len;
 	char c;
 	strcpy(enter_str, "Enter Element to deQueue: ");
-	start_of_num = strlen("Enter Element to deQueue: ");
-	jump:
+	start_of_num = strlen(enter_str);
 	printf("\n\n\n");
 	printf("------------------------------------\n");
 	printf("Simulation of  deQueue in OpenGL\n");
