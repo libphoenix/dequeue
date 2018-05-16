@@ -65,7 +65,7 @@ void square(int x1, int y1, int x2, int y2) {
 
 
 // 3rd function
-//
+//func to draw outline to the box now its red in color
 void drawOutline(int x1, int y1, int x2, int y2) {
 	int temp;
 	if(x1 < x2) {
@@ -93,6 +93,7 @@ void drawOutline(int x1, int y1, int x2, int y2) {
 
 
 // 4th function
+//func to draw string on the output screen and other info
 void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 	glPushMatrix();
 	glTranslatef(x,y,0);
@@ -114,6 +115,7 @@ void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 
 
 // 5th function
+// func to draw arrow of front and back end of the queue to show front and back end of the queue
 void drawArrow(int x1, const char* s) {
 	glBegin(GL_LINES);
 		glVertex2f(x1, 3*SCREEN_Y/4);
@@ -137,19 +139,30 @@ void drawArrow(int x1, const char* s) {
 
 
 // 6th function
+// display func to redraw the screen every time its needed to be drawn on the screen
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	strcpy(displayString, enter_str);
 	strcat(displayString, blinking);
-	drawString("Enter where you want to add element:", 50, 430, 1.0/(FONT_RATIO));
+	strcpy(displayString1, "Enter where you want to add element:");
+	strcat(displayString1, blinking);
+	drawString(displayString1, 50, 430, 1.0/(FONT_RATIO));
 	drawString(displayString, ENTER_POSITION_X, ENTER_POSITION_Y+30,1.0/(FONT_RATIO));
 
 	for(int i = 0; i < b; i++) {
+		float t;
+		t = queue[i].x2 - queue[i].x1;
 		glColor3f(queue[i].r,queue[i].g,queue[i].b);
-		square(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+		// if(forb)
+			square(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+		// else
+		// 	square(queue[i].x2-t, SCREEN_Y/2, queue[i].x1, SCREEN_Y/2+YD);
 		glColor3f(queue[i].rl,queue[i].gl,queue[i].bl);
-		drawOutline(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+		// if(forb)
+			drawOutline(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+		// else
+		// 	drawOutline(queue[i].x2-t, SCREEN_Y/2, queue[i].x1, SCREEN_Y/2+YD);
 		if(queue[i].r != 1.0 || queue[i].b != 1.0 || queue[i].g != 1.0) {
 			double ln = strlen(queue[i].num);
 			double width = queue[i].x2-queue[i].x1;
@@ -189,6 +202,7 @@ void display() {
 
 
 // 7th function
+// func to add element to the double ended queue
 void enqueue(char *s) {
 	int len = strlen(s);
 	int i;
@@ -210,6 +224,7 @@ void enqueue(char *s) {
 
 
 // 8th function
+// func to delete element from back end of the queue
 void backDequeue(void) {
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
@@ -244,7 +259,8 @@ void backDequeue(void) {
 
 
 
-//9th function
+// 9th function
+// function to delete element from back end of queue
 void frontDequeue(void){
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
@@ -264,6 +280,7 @@ void frontDequeue(void){
     enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front
 		if(f >= b) {
 			message = EMPTY;
+
 		}
 		if(b >= MAX)
 			message = FULL;
@@ -276,6 +293,7 @@ void frontDequeue(void){
 
 
 //10th function
+// max func to check which is greater in two arguments
 int max(int a, int b) {
 	return a?(a>b):b;
 }
@@ -288,6 +306,7 @@ int max(int a, int b) {
 
 
 // 11th function
+// func to check which is key is pressed by user and what are app functions to that key
 void mykey(unsigned char key, int x, int y) {
 	if(f == MAX && b == MAX) exit(0);
 
@@ -305,6 +324,8 @@ void mykey(unsigned char key, int x, int y) {
 		enter_str[len+1] = '\0';
 		enter_str[len] = key;
 		cnt_of_chars++;
+		// printf("Want to enter element in fornt end or back end\n(front end:1\tback end:0)");
+		// scanf("%d",&forb);
 	}
 	else if(key == '\b' && len > start_of_num) {
 		printf("2\n");
@@ -312,6 +333,8 @@ void mykey(unsigned char key, int x, int y) {
 		cnt_of_chars--;
 	}
 	else if(!isgraph(key)) {
+	// printf("Want to enter element in fornt end or back end\n(front end:1\tback end:0)");
+	// scanf("%d",&forb);
 		printf("3\n");
 		char newint[4];
 		strncpy(newint, enter_str+start_of_num, 3);

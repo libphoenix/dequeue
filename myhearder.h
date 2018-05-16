@@ -34,9 +34,11 @@ int enqORdq = NO_OP;			// indicates what the last operation was.
 
 // end of all Constants
 int clr = 0;
+int forb = 0;
 char enter_str[10000];
 char blinking[2] = {'_', 0};
 char displayString[10003];
+char displayString1[10003];
 int start_of_num;
 int cnt_of_chars = 0;
 int message = EMPTY;
