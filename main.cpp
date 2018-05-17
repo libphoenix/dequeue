@@ -320,7 +320,7 @@ void mykey(unsigned char key, int x, int y) {
 	if((key=='E' || key == 'e')&& (cnt_of_chars == 0))
 		exit(0);
 	else if(isdigit(key) && strlen(enter_str) <= 28) {
-		printf("1\n");
+		// printf("1\n");
 		enter_str[len+1] = '\0';
 		enter_str[len] = key;
 		cnt_of_chars++;
@@ -328,14 +328,14 @@ void mykey(unsigned char key, int x, int y) {
 		// scanf("%d",&forb);
 	}
 	else if(key == '\b' && len > start_of_num) {
-		printf("2\n");
+		// printf("2\n");
 		enter_str[len -1] = '\0';
 		cnt_of_chars--;
 	}
 	else if(!isgraph(key)) {
 	// printf("Want to enter element in fornt end or back end\n(front end:1\tback end:0)");
 	// scanf("%d",&forb);
-		printf("3\n");
+		// printf("3\n");
 		char newint[4];
 		strncpy(newint, enter_str+start_of_num, 3);
 		if(newint[0]) {
