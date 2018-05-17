@@ -151,18 +151,28 @@ void display() {
 	drawString(displayString, ENTER_POSITION_X, ENTER_POSITION_Y+30,1.0/(FONT_RATIO));
 
 	for(int i = 0; i < b; i++) {
-		float t;
-		t = queue[i].x2 - queue[i].x1;
-		glColor3f(queue[i].r,queue[i].g,queue[i].b);
-		// if(forb)
+		 if(isback){
+ 			glColor3f(queue[i].r,queue[i].g,queue[i].b);
 			square(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
-		// else
-		// 	square(queue[i].x2-t, SCREEN_Y/2, queue[i].x1, SCREEN_Y/2+YD);
-		glColor3f(queue[i].rl,queue[i].gl,queue[i].bl);
-		// if(forb)
+			glColor3f(queue[i].rl,queue[i].gl,queue[i].bl);
+		}
+		 else{
+ 			glColor3f(queue[i].r,queue[i].g,queue[i].b);
+		 	square(queue[f].x1, SCREEN_Y/2, queue[f].x1-differenc, SCREEN_Y/2+YD);
+			square(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+			glColor3f(queue[i].rl,queue[i].gl,queue[i].bl);
+	}
+		 if(isback){
 			drawOutline(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
-		// else
-		// 	drawOutline(queue[i].x2-t, SCREEN_Y/2, queue[i].x1, SCREEN_Y/2+YD);
+		}
+		 else{
+			if(f == 0){
+				enqORdq = fnot;
+				break;
+			}
+			drawOutline(queue[f].x1, SCREEN_Y/2, queue[f].x1-differenc, SCREEN_Y/2+YD);
+			drawOutline(queue[i].x1, SCREEN_Y/2, queue[i].x2, SCREEN_Y/2+YD);
+		}
 		if(queue[i].r != 1.0 || queue[i].b != 1.0 || queue[i].g != 1.0) {
 			double ln = strlen(queue[i].num);
 			double width = queue[i].x2-queue[i].x1;
@@ -171,10 +181,18 @@ void display() {
 			drawString(queue[i].num, queue[i].x1+step, SCREEN_Y/2+step_y, 1.0/FONT_RATIO);
 		}
 	}
+	if(isback){
 	drawArrow(queue[f].x1, "FRONT");
 	drawArrow(queue[b].x1+OFFSET_X/2, "BACK");
+	}
+	else{
+	drawArrow(queue[f].x1-differenc, "FRONT");
+	drawArrow(queue[b].x1, "BACK");
+	}
 	if(enqORdq == ENQUEUE)
 		drawString("LAST OPERATION: ENQUEUE", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
+	if(enqORdq == fnot)
+		drawString("LAST OPERATIOPN: NOT POSSIBLE", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
 	else if(enqORdq == DEQUEUE1)
 		drawString("LAST OPERATION: DEQUEUE from front", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
 	else if(enqORdq == DEQUEUE2)
@@ -324,8 +342,8 @@ void mykey(unsigned char key, int x, int y) {
 		enter_str[len+1] = '\0';
 		enter_str[len] = key;
 		cnt_of_chars++;
-		// printf("Want to enter element in fornt end or back end\n(front end:1\tback end:0)");
-		// scanf("%d",&forb);
+	 	printf("Want to enter element in fornt end or back end\n(front end:0\tback end:1)");
+	 	scanf("%d",&isback);
 	}
 	else if(key == '\b' && len > start_of_num) {
 		// printf("2\n");
