@@ -1,3 +1,8 @@
+// !$ INFO: key i or I for inserting at back
+// key o or O for inserting at front
+// instead of <ENTER> key use i or o
+
+
 //deepakpatel is here 
 #include <stdio.h>
 #include <string.h>
@@ -121,7 +126,7 @@ void display() {
 		}
 	}
 
-	drawArrow(queue[f].x1, "FRONT");
+	drawArrow(queue[f].x1+OFFSET_X/2, "FRONT");
 	drawArrow(queue[b].x1+OFFSET_X/2, "BACK");
 	if(enqORdq == ENQUEUE)
 		drawString("LAST OPERATION: ENQUEUE", OPERATION_POSITION_X, OPERATION_POSITION_Y+50, 1.0/(FONT_RATIO));
@@ -142,20 +147,32 @@ void display() {
 
 	//instructions
 	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(1.5*FONT_RATIO));
-	drawString("and F or f to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
+	drawString("and B or b to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
 	drawString("Press E or e for exit.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
-	drawString("Press D or d to dequeue from front.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
+	drawString("Press F or f to dequeue from front.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
 	glFlush();
 }
 
 
-void enqueue(char *s) {
+void backEnqueue(char *s) {
 	int len = strlen(s);
 	int i;
 	if(b < MAX) {
 		len = strlen(s);
 		for(i = 0; i < len-1 && s[i] == '0'; i++);
 		strcpy(queue[b].num, s+i);
+		
+		/* add colors */
+		queue[f].r = 0;  
+		queue[f].g = 0.25;
+		queue[f].b = 0.75;
+
+		// outline colors. set all as same as background color.
+		queue[f].rl = 1;
+		queue[f].gl = 0;
+		queue[f].bl = 0;
+		/************/
+
 		b++;
 		enqORdq = ENQUEUE;	// indicates what the last operation was.
 		message = NO_MESSAGE;
@@ -165,8 +182,39 @@ void enqueue(char *s) {
 }
 
 
-void backDequeue(void) {
-	if(f >= MAX || f >= b) {
+void frontEnqueue(char *s) {
+	int len = strlen(s);
+	int i;
+	if(f > 0) {
+		len = strlen(s);
+		f--;
+		for(i = 0; i < len-1 && s[i] == '0'; i++);
+		strcpy(queue[f].num, s+i);
+		
+		/* add colors */
+		queue[f].r = 0;  
+		queue[f].g = 0.25;
+		queue[f].b = 0.75;
+
+		// outline colors. set all as same as background color.
+		queue[f].rl = 1;
+		queue[f].gl = 0;
+		queue[f].bl = 0;
+		/************/
+
+		enqORdq = ENQUEUE;	// indicates what the last operation was.
+		message = NO_MESSAGE;
+	}
+	if(f == 0)
+		message = FULL;
+}
+
+
+
+
+
+void frontDequeue(void) {
+	if(b <= 0 || b <= f) {
 		message = EMPTY;
 		return;
 	}
@@ -180,11 +228,12 @@ void backDequeue(void) {
 	queue[f].rl = BACKGROUND_R;
 	queue[f].gl = BACKGROUND_G;
 	queue[f].bl = BACKGROUND_B;
+	//strcpy(queue[f].num,"NULL");
 
 	f++;
 	enqORdq = DEQUEUE1;	// indicates what the last operation was dequeue from back
 
-	if(f >= b) {
+	if(b <= f) {
 		message = EMPTY;
 	}
 	if(b >= MAX)
@@ -192,20 +241,13 @@ void backDequeue(void) {
 }
 
 
-void frontDequeue(void){
+void backDequeue(void){
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
 		return;
 	}
-    // set all as background color
-    queue[b].r = BACKGROUND_R;
-    queue[b].g = BACKGROUND_G;
-    queue[b].b = BACKGROUND_B;
-
-    // outline colors. set all as same as background color.
-    queue[b].rl = BACKGROUND_R;
-    queue[b].gl = BACKGROUND_G;
-    queue[b].bl = BACKGROUND_B;
+   
+    //strcpy(queue[b].num,"NULL");
 
     b--;
     enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front 
@@ -221,13 +263,13 @@ int max(int a, int b) {
 }
 
 void mykey(unsigned char key, int x, int y) {
-	if(f == MAX && b == MAX) exit(0);
+//	if(f == MAX && b == MAX) exit(0);
 
 	int len = strlen(enter_str);
-	if((key == 'd' || key == 'D') && (cnt_of_chars == 0))
-		backDequeue();
-  if((key == 'f' || key== 'F') && (cnt_of_chars == 0))
-    frontDequeue();
+	if((key == 'F' || key == 'f') && (cnt_of_chars == 0))
+		frontDequeue();
+  if((key == 'B' || key== 'b') && (cnt_of_chars == 0))
+    	backDequeue();
 	if((key=='E' || key == 'e')&& (cnt_of_chars == 0))
 		exit(0);
 	else if(isdigit(key) && strlen(enter_str) <= 28) {
@@ -239,14 +281,23 @@ void mykey(unsigned char key, int x, int y) {
 		enter_str[len -1] = '\0';
 		cnt_of_chars--;
 	}
-	else if(!isgraph(key)) {
+	else if(key=='i' || key=='I') {
 		char newint[4];
 		strncpy(newint, enter_str+start_of_num, 3);
 		if(newint[0]) {
-			enqueue(newint);
+			backEnqueue(newint);
 			enter_str[start_of_num] = '\0';
 		}
 		cnt_of_chars = 0;
+	}
+	else if(key=='o' || key=='O'){
+		char newint[4];
+		strncpy(newint, enter_str+start_of_num, 3);
+		if(newint[0]) {
+			frontEnqueue(newint);
+			enter_str[start_of_num] = '\0';
+		}
+		cnt_of_chars = 0;	
 	}
 	glutPostRedisplay();
 }
