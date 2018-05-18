@@ -10,6 +10,8 @@
 #define BACKGROUND_A 1.0
 #define SCREEN_Y 500
 #define OFFSET_X 50
+#define differenc 180.000000
+#define fnot 20
 #define ARROW_LENGTH 50
 #define ENQUEUE 19
 #define DEQUEUE1 38
@@ -34,9 +36,11 @@ int enqORdq = NO_OP;			// indicates what the last operation was.
 
 // end of all Constants
 int clr = 0;
+int isback = 1;
 char enter_str[10000];
 char blinking[2] = {'_', 0};
 char displayString[10003];
+char displayString1[10003];
 int start_of_num;
 int cnt_of_chars = 0;
 int message = EMPTY;
