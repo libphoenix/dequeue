@@ -1,9 +1,4 @@
-// !$ INFO: key i or I for inserting at back
-// key o or O for inserting at front
-// instead of <ENTER> key use i or o
 
-
-//deepakpatel is here 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -146,14 +141,16 @@ void display() {
 	}
 
 	//instructions
-	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(1.5*FONT_RATIO));
-	drawString("and B or b to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
-	drawString("Press E or e for exit.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
-	drawString("Press F or f to dequeue from front.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
+	drawString("Instructions:", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+60, 1.0/(1.5*FONT_RATIO));
+	drawString("Press I or i to enqueue from back", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+40, 1.0/(2*FONT_RATIO));
+	drawString("Press O or o to enqueue from front", OPERATION_POSITION_X-280, OPERATION_POSITION_Y, 1.0/(2*FONT_RATIO));
+	drawString("and F or f to dequeue from front.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-20, 1.0/(2*FONT_RATIO));
+	drawString("and B or b to dequeue from back.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y+20, 1.0/(2*FONT_RATIO));
+	drawString("Press E or e to Exit.", OPERATION_POSITION_X-280, OPERATION_POSITION_Y-40, 1.0/(2*FONT_RATIO));
 	glFlush();
 }
 
-
+//Press E or e for exit.
 void backEnqueue(char *s) {
 	int len = strlen(s);
 	int i;
@@ -161,9 +158,9 @@ void backEnqueue(char *s) {
 		len = strlen(s);
 		for(i = 0; i < len-1 && s[i] == '0'; i++);
 		strcpy(queue[b].num, s+i);
-		
+
 		/* add colors */
-		queue[f].r = 0;  
+		queue[f].r = 0;
 		queue[f].g = 0.25;
 		queue[f].b = 0.75;
 
@@ -190,9 +187,9 @@ void frontEnqueue(char *s) {
 		f--;
 		for(i = 0; i < len-1 && s[i] == '0'; i++);
 		strcpy(queue[f].num, s+i);
-		
+
 		/* add colors */
-		queue[f].r = 0;  
+		queue[f].r = 0;
 		queue[f].g = 0.25;
 		queue[f].b = 0.75;
 
@@ -246,11 +243,11 @@ void backDequeue(void){
 		message = EMPTY;
 		return;
 	}
-   
+
     //strcpy(queue[b].num,"NULL");
 
     b--;
-    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front 
+    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front
 		if(f >= b) {
 			message = EMPTY;
 		}
@@ -297,7 +294,7 @@ void mykey(unsigned char key, int x, int y) {
 			frontEnqueue(newint);
 			enter_str[start_of_num] = '\0';
 		}
-		cnt_of_chars = 0;	
+		cnt_of_chars = 0;
 	}
 	glutPostRedisplay();
 }
