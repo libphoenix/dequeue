@@ -8,7 +8,8 @@
 #include "myhearder.h"
 
 
-
+//1st function
+// initialize the values requried
 void myinit() {
 	// background
 	glClearColor(BACKGROUND_R, BACKGROUND_G, BACKGROUND_B, BACKGROUND_A);
@@ -40,6 +41,12 @@ void myinit() {
 
 }
 
+
+
+
+
+//2nd function
+//function to draw a square
 void square(int x1, int y1, int x2, int y2) {
 	glBegin(GL_POLYGON);
 		glVertex2f(x1, y1);
@@ -49,6 +56,12 @@ void square(int x1, int y1, int x2, int y2) {
 	glEnd();
 }
 
+
+
+
+
+//3rd function
+//function to draw the outline the square
 void drawOutline(int x1, int y1, int x2, int y2) {
 	int temp;
 	if(x1 < x2) {
@@ -69,6 +82,12 @@ void drawOutline(int x1, int y1, int x2, int y2) {
 	glEnd();
 }
 
+
+
+
+
+//4th function
+//function to draw a string to the output screen
 void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 	glPushMatrix();
 	glTranslatef(x,y,0);
@@ -83,6 +102,12 @@ void drawString(const char *str, double x=0, double y=0, double size=5.0) {
 }
 
 
+
+
+
+
+//5th function
+//function to draw the queue arrow anywhere requried
 void drawArrow(int x1, const char* s) {
 	glBegin(GL_LINES);
 		glVertex2f(x1, 3*SCREEN_Y/4);
@@ -99,6 +124,13 @@ void drawArrow(int x1, const char* s) {
 		drawString(s, x1-ARROW_LENGTH/3, 3*SCREEN_Y/4+ARROW_LENGTH/4, 1.0/(2*FONT_RATIO));
 }
 
+
+
+
+
+
+//6th function
+//function to display all things to the screen
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -150,7 +182,11 @@ void display() {
 	glFlush();
 }
 
-//Press E or e for exit.
+
+
+
+//7th function
+//adding datavalue from the back end of the queue
 void backEnqueue(char *s) {
 	int len = strlen(s);
 	int i;
@@ -159,19 +195,16 @@ void backEnqueue(char *s) {
 		for(i = 0; i < len-1 && s[i] == '0'; i++);
 		strcpy(queue[b].num, s+i);
 
-		/* add colors */
 		queue[f].r = 0;
 		queue[f].g = 0.25;
 		queue[f].b = 0.75;
 
-		// outline colors. set all as same as background color.
 		queue[f].rl = 1;
 		queue[f].gl = 0;
 		queue[f].bl = 0;
-		/************/
 
 		b++;
-		enqORdq = ENQUEUE;	// indicates what the last operation was.
+		enqORdq = ENQUEUE;
 		message = NO_MESSAGE;
 	}
 	if(b == MAX)
@@ -179,6 +212,13 @@ void backEnqueue(char *s) {
 }
 
 
+
+
+
+
+
+//8th function
+//adding datavalue from the front end of the queue
 void frontEnqueue(char *s) {
 	int len = strlen(s);
 	int i;
@@ -188,18 +228,16 @@ void frontEnqueue(char *s) {
 		for(i = 0; i < len-1 && s[i] == '0'; i++);
 		strcpy(queue[f].num, s+i);
 
-		/* add colors */
 		queue[f].r = 0;
 		queue[f].g = 0.25;
 		queue[f].b = 0.75;
 
-		// outline colors. set all as same as background color.
 		queue[f].rl = 1;
 		queue[f].gl = 0;
 		queue[f].bl = 0;
-		/************/
 
-		enqORdq = ENQUEUE;	// indicates what the last operation was.
+
+		enqORdq = ENQUEUE;
 		message = NO_MESSAGE;
 	}
 	if(f == 0)
@@ -210,25 +248,24 @@ void frontEnqueue(char *s) {
 
 
 
+//9th function
+// removing datavalue form the front end of the queue
 void frontDequeue(void) {
 	if(b <= 0 || b <= f) {
 		message = EMPTY;
 		return;
 	}
 
-	// set all as background color
 	queue[f].r = BACKGROUND_R;
 	queue[f].g = BACKGROUND_G;
 	queue[f].b = BACKGROUND_B;
 
-	// outline colors. set all as same as background color.
 	queue[f].rl = BACKGROUND_R;
 	queue[f].gl = BACKGROUND_G;
 	queue[f].bl = BACKGROUND_B;
-	//strcpy(queue[f].num,"NULL");
 
 	f++;
-	enqORdq = DEQUEUE1;	// indicates what the last operation was dequeue from back
+	enqORdq = DEQUEUE1;
 
 	if(b <= f) {
 		message = EMPTY;
@@ -238,16 +275,21 @@ void frontDequeue(void) {
 }
 
 
+
+
+
+
+//10th function
+//removing datavalue from the back end of the queue
 void backDequeue(void){
 	if(f >= MAX || f >= b) {
 		message = EMPTY;
 		return;
 	}
 
-    //strcpy(queue[b].num,"NULL");
 
     b--;
-    enqORdq = DEQUEUE2;    // indicates what the last operation was deQueue at front
+    enqORdq = DEQUEUE2;
 		if(f >= b) {
 			message = EMPTY;
 		}
@@ -255,12 +297,28 @@ void backDequeue(void){
 			message = FULL;
 }
 
+
+
+
+
+
+
+//11th function
+//to check which is greater of two values
 int max(int a, int b) {
 	return a?(a>b):b;
 }
 
+
+
+
+
+
+
+
+//12th function
+//funtion to get input from the user by keyboard
 void mykey(unsigned char key, int x, int y) {
-//	if(f == MAX && b == MAX) exit(0);
 
 	int len = strlen(enter_str);
 	if((key == 'F' || key == 'f') && (cnt_of_chars == 0))
@@ -300,12 +358,19 @@ void mykey(unsigned char key, int x, int y) {
 }
 
 
+
+
+
+
+
+//13th function
+//main funtion where all the action takes place
 int  main(int argc,char **argv) {
 	char number[1000];
 	int i, j, len;
 	char c;
-	strcpy(enter_str, "Enter Element to deQueue: ");
-	start_of_num = strlen("Enter Element to deQueue: ");
+	strcpy(enter_str, "Enter Element to Queue: ");
+	start_of_num = strlen("Enter Element to Queue: ");
 	jump:
 	printf("\n\n\n");
 	printf("------------------------------------\n");
