@@ -5,7 +5,7 @@
 #include <GLUT/glut.h>
 #include <ctype.h>
 #include <time.h>
-#include "myhearder.h"
+#include "myheader.h"
 
 
 //1st function
